@@ -45,6 +45,7 @@ namespace _18181_18185_Projeto1ED
             }
         }
 
+        private int tamanhoDimen = 5, tamanhoValor = 10;
         public int Linhas { get => linhas; set => linhas = value; }
         public int Colunas { get => colunas; set => colunas = value; }
         public int QtdElementos { get => qtdElementos; set => qtdElementos = value; }
@@ -79,94 +80,136 @@ namespace _18181_18185_Projeto1ED
         {
             if (lin > 0 && lin <= this.linhas && col <= this.colunas && col > 0 && val != 0)
             {
-                Celula novaCelula = Buscar(lin, col);
-                if (novaCelula.Valor != 0)
-                    novaCelula.Valor = val;
+                Celula  novaCell = new Celula(null,null,col,lin,val);
+                if (Buscar(lin, col).Valor != 0)
+                    Buscar(lin, col).Valor = val;
                 else
                 {
-                    novaCelula = new Celula(null, null, col, lin, val);
-                    celulaAtual = primeiraCelula;
-                    for (int i = celulaAtual.Linha; i < lin; i = celulaAtual.Linha)
+                    CelulaAtual = primeiraCelula;
+                    while (CelulaAtual.Linha != lin)
                     {
-                        CelulaAnterior = celulaAtual;
-                        celulaAtual = celulaAtual.CelulaBaixo;
-
-                        if (celulaAtual.Linha == lin)
+                        CelulaAtual = CelulaAtual.CelulaBaixo;
+                    }
+                    while(CelulaAtual != null)
+                    {
+                        if (CelulaAtual.Coluna < col)
                         {
-                            celulaAtual.Linha = i;
-
-                            for (int a = celulaAtual.Coluna; a < col; a = celulaAtual.Coluna)
-                            {
-                                CelulaAnterior = celulaAtual;
-                                celulaAtual = celulaAtual.CelulaDireita;
-
-                                if(celulaAtual.Coluna == col)
-                                {
-                                    celulaAtual.Coluna = a;
-
-                                    if(celulaAtual.CelulaDireita == null)
-                                    {
-                                        celulaAtual.CelulaDireita = novaCelula;
-                                        novaCelula.CelulaDireita = null;
-
-                                        if(celulaAtual.CelulaBaixo == null)
-                                        {
-                                            celulaAtual.CelulaBaixo = novaCelula;
-                                            novaCelula.CelulaBaixo = null;
-                                        }
-                                        else
-                                        {
-                                            for(int b = 0; b < novaCelula.Linha; b++)
-                                            {
-                                                Celula aCel = new Celula(null, null, novaCelula.Coluna, 1, 0);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            celulaAnterior = CelulaAtual;
+                            CelulaAtual = CelulaAtual.CelulaDireita;
                         }
                     }
+                    novaCell.CelulaDireita = CelulaAtual;
+                    celulaAnterior.CelulaDireita = novaCell;
+
+                    CelulaAtual = primeiraCelula;
+                    while (CelulaAtual.Coluna != col)
+                    {
+                        CelulaAtual = CelulaAtual.CelulaDireita;
+                    }
+                    while (CelulaAtual != null)
+                    {
+                        if (CelulaAtual.Linha < lin)
+                        {
+                            celulaAnterior = CelulaAtual;
+                            CelulaAtual = CelulaAtual.CelulaBaixo;
+                        }
+                    }
+                    novaCell.CelulaBaixo = CelulaAtual;
+                    celulaAnterior.CelulaBaixo = novaCell;
                 }
             }
+        }
+
+        public MatrizEsparsa LerMatriz(string caminho)
+        {
+            StreamReader leitor = new StreamReader(caminho);
+            string dados = leitor.ReadLine();
+            MatrizEsparsa novaMat = new MatrizEsparsa(int.Parse(dados.Substring(0, tamanhoDimen)), int.Parse(dados.Substring(tamanhoDimen, tamanhoDimen)));
+            while(!leitor.EndOfStream)
+            {
+                dados = leitor.ReadLine();
+                novaMat.Inserir(int.Parse(dados.Substring(0, tamanhoDimen))
+                    , int.Parse(dados.Substring(tamanhoDimen, tamanhoDimen))
+                    , int.Parse(dados.Substring(2 * tamanhoDimen - 1, tamanhoValor)));
+            }
+            leitor.Close();
+            return novaMat;
+        }
+
+        public void Deletar(int col,int lin)
+        {
+            Celula exCell = Buscar(lin, col);
+            if(exCell.Valor != 0)
+            {
+                CelulaAtual = primeiraCelula;
+                while (CelulaAtual.Linha != lin)
+                {
+                    CelulaAtual = CelulaAtual.CelulaBaixo;
+                }
+                while (CelulaAtual != null)
+                {
+                    if (CelulaAtual.Coluna < col)
+                    {
+                        celulaAnterior = CelulaAtual;
+                        CelulaAtual = CelulaAtual.CelulaDireita;
+                    }
+                }
+                celulaAnterior.CelulaDireita = exCell.CelulaDireita;
+
+                CelulaAtual = primeiraCelula;
+                while (CelulaAtual.Coluna != col)
+                {
+                    CelulaAtual = CelulaAtual.CelulaDireita;
+                }
+                while (CelulaAtual != null)
+                {
+                    if (CelulaAtual.Linha < lin)
+                    {
+                        celulaAnterior = CelulaAtual;
+                        CelulaAtual = CelulaAtual.CelulaBaixo;
+                    }
+                }
+                celulaAnterior.CelulaBaixo = exCell.CelulaBaixo;
+            }
+
+        }
+
+        public MatrizEsparsa SomarMatriz(MatrizEsparsa mat)
+        {
+            if (this.Linhas != mat.Linhas || this.colunas != mat.Colunas)
+                return null;
+            MatrizEsparsa novaMat = new MatrizEsparsa(mat.Colunas, mat.Linhas);
+
+            novaMat.celulaAtual = primeiraCelula;
+
+            for(int l = 1; l < novaMat.linhas; l++)
+            {
+                for( int c= 1;c < novaMat.Colunas;c++ )
+                {
+                    if (this.Buscar(l, c).Valor + mat.Buscar(l, c).Valor != 0)
+                    novaMat.Inserir(l, c, this.Buscar(l, c).Valor + mat.Buscar(l, c).Valor);
+                }
+            }
+
+            return novaMat;
         }
 
         public void SomarK(int col, int k)
         {
             if (col > 0 && col < colunas && k != 0)
             {
-                celulaAtual = primeiraCelula;
-
-                for (int a = celulaAtual.Coluna; a < col; a = celulaAtual.Coluna)
+                for(int i = 1; i< Linhas; i++)
                 {
-                    celulaAnterior = celulaAtual;
-                    celulaAtual = celulaAtual.CelulaDireita;
-                }
-
-                celulaAtual = celulaAtual.CelulaBaixo;
-
-                for(int i = 0; i <= linhas; i++)
-                {
-                    if (Buscar(i, celulaAtual.Coluna).Valor != 0)
+                    Celula aux = Buscar(i, col);
+                    if (aux.Valor != 0)
                     {
-                        if(celulaAtual.Valor + k ==0)
-                        {
-                            celulaAnterior = celulaAtual;
-                            celulaAtual = celulaAtual.CelulaBaixo;
-
-                           // Deletar(celulaAnterior);
-                        }
+                        if (aux.Valor + k != 0)
+                            aux.Valor = +k;
                         else
-                        {
-                            celulaAtual.Valor = celulaAtual.Valor + k;
-                            celulaAnterior = celulaAtual;
-                            celulaAtual = celulaAtual.CelulaBaixo;
-                        }
+                            Deletar(aux.Coluna,aux.Linha);
                     }
                     else
-                    {
-                        Inserir(i, celulaAtual.Coluna, k);
-                        celulaAnterior = celulaAtual;
-                        celulaAtual = Buscar(i, celulaAtual.Coluna);                    }
+                        Inserir(i, col, k);
                 }
             }
         }
@@ -176,29 +219,14 @@ namespace _18181_18185_Projeto1ED
             onde.RowCount = linhas;
             onde.ColumnCount = colunas;
 
-            celulaAtual = primeiraCelula.CelulaBaixo;
-
-            for(int i = 0; i < linhas; i++)
+            for(int c = 1; c< this.colunas; c++)
             {
-                for(int a = 0; a < colunas; a++)
+                for(int l = 1;l<this.Linhas; l++)
                 {
-                    if(celulaAtual.CelulaDireita == null)
-                    {
-                        for(int b = celulaAtual.Coluna + 1; b < colunas; b++)
-                        {
-                            onde[b, i].Value = 0;
-                        }
-                    }
-                    else
-                    {
-                        for(int b = a; b < celulaAtual.Coluna; b++)
-                        {
-
-                        }
-                        onde[celulaAtual.Coluna, i].Value = celulaAtual.CelulaDireita.Valor;
-                    }                
+                    onde[c - 1, l - 1].Value = Buscar(l, c).Valor;
                 }
             }
+          
         }
     }
 }
