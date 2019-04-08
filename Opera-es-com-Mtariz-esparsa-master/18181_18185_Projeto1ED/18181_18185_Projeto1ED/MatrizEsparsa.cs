@@ -196,7 +196,22 @@ namespace _18181_18185_Projeto1ED
 
         public MatrizEsparsa MultMatriz(MatrizEsparsa mat)
         {
-            return mat;
+            MatrizEsparsa novaMat = new MatrizEsparsa(this.Colunas, mat.Linhas);
+            int valComum = this.Linhas;
+            for(int l = 1; l< novaMat.Linhas; l++)
+            {
+                for(int c = 1; c< novaMat.Colunas; c++)
+                {
+                    int aux = 0;
+                    for(int c2 = 1; c2 < valComum; c2++)
+                    {
+
+                    }
+                    if (aux != 0)
+                        novaMat.Inserir(l, c, aux);
+                }
+            }
+            return novaMat;
         }
 
         public void SomarK(int col, double k)
