@@ -105,20 +105,23 @@ namespace _18181_18185_Projeto1ED
         private void btnRead_Click(object sender, EventArgs e)
         {
             if(ofdLeitura.ShowDialog() == DialogResult.OK)
-            {                   
-                matrizAtual = matrizAtual.LerMatriz(ofdLeitura.FileName);
-                if (matrizAtual == matriz1)
+            {                
+                if (matrizAtual == matriz1 && matrizAtual == null)
                 {
+                    matriz1 = new MatrizEsparsa(1, 1);
+                    matriz1 = matriz1.LerMatriz(ofdLeitura.FileName);
                     label3.Visible = true;
                     dgvUm.Visible = true;
-                    matrizAtual.Exibir(dgvUm);
+                    matriz1.Exibir(dgvUm);
                     matrizAtual = matriz2;
                 }
                 else
                 {
+                    matriz2 = new MatrizEsparsa(1, 1);
+                    matriz2 = matriz1.LerMatriz(ofdLeitura.FileName);
                     label2.Visible = true;
                     dgvDois.Visible = true;
-                    matrizAtual.Exibir(dgvDois);
+                    matriz2.Exibir(dgvDois);
                 }
             }
             atualizaBtns();
@@ -126,21 +129,19 @@ namespace _18181_18185_Projeto1ED
 
         private void btnDeleta_Click(object sender, EventArgs e)
         {
-            matrizAtual = null;
             if (matrizAtual == matriz2)
             {
+                matriz2 = null;
                 label2.Visible = false;
                 dgvDois.Visible = false;
-                dgvDois.RowCount = 0;
-                dgvDois.ColumnCount = 0;
                 matrizAtual = matriz1;
             }
             else
             {
+                matriz1 = null;
                 label3.Visible = false;
                 dgvUm.Visible = false;
-                dgvUm.RowCount = 0;
-                dgvUm.ColumnCount = 0;
+                matrizAtual = matriz1;
             }
             atualizaBtns();
         }
@@ -176,7 +177,7 @@ namespace _18181_18185_Projeto1ED
             estadoAtual = (int)estado.navegando;
             txtValor.Enabled = false;
             txtColuna.Enabled = false;
-            txtValor.Enabled = false;
+            txtLinha.Enabled = false;
             txtValor.Text = "";
             txtLinha.Text = "";
             txtColuna.Text = "";
@@ -188,19 +189,21 @@ namespace _18181_18185_Projeto1ED
             switch(estadoAtual)
             {
                 case (int)estado.criando:
-                    matrizAtual = new MatrizEsparsa(int.Parse(txtColuna.Text), int.Parse(txtLinha.Text));
-                    if (matrizAtual == matriz1)
+                    if ( matriz1 == matrizAtual && matrizAtual == null)
                     {
+                        matriz1= new MatrizEsparsa(int.Parse(txtColuna.Text), int.Parse(txtLinha.Text));
                         label3.Visible = true;
                         dgvUm.Visible = true;
-                        matrizAtual.Exibir(dgvUm);
+                        matriz1.Exibir(dgvUm);
                         matrizAtual = matriz2;
                     }
                     else
                     {
+                        matriz2 = new MatrizEsparsa(int.Parse(txtColuna.Text), int.Parse(txtLinha.Text));
                         label2.Visible = true;
                         dgvDois.Visible = true;
-                        matrizAtual.Exibir(dgvDois);
+                        matriz2.Exibir(dgvDois);
+                        matrizAtual = matriz2;
                     }
                     btnCancelar.PerformClick();
                     break;
@@ -240,6 +243,23 @@ namespace _18181_18185_Projeto1ED
                     MessageBox.Show("o valor na célula é: " + (matrizAtual.Buscar(int.Parse(txtLinha.Text), int.Parse(txtColuna.Text)).Valor).ToString());
                     btnCancelar.PerformClick();
                     break;
+            }
+        }
+
+        private void txtColuna_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void txtValor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
             }
         }
 

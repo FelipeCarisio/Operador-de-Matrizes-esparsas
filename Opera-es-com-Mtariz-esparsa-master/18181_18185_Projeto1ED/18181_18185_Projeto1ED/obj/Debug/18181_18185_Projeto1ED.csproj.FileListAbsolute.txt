@@ -15,3 +15,6 @@ C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto
 C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\obj\Debug\18181_18185_Projeto1ED.csproj.CoreCompileInputs.cache
 C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\obj\Debug\18181_18185_Projeto1ED.exe
 C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\obj\Debug\18181_18185_Projeto1ED.pdb
+C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\bin\Debug\18181_18185_Projeto1ED.exe.config
+C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\bin\Debug\18181_18185_Projeto1ED.exe
+C:\Users\u18181\Downloads\Opera-es-com-Mtariz-esparsa-master\18181_18185_Projeto1ED\18181_18185_Projeto1ED\bin\Debug\18181_18185_Projeto1ED.pdb

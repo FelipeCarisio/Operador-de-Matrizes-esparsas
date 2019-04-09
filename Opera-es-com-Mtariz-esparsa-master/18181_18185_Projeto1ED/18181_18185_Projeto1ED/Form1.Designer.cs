@@ -201,28 +201,34 @@
             // 
             this.txtLinha.Enabled = false;
             this.txtLinha.Location = new System.Drawing.Point(12, 34);
+            this.txtLinha.MaxLength = 5;
             this.txtLinha.Name = "txtLinha";
             this.txtLinha.Size = new System.Drawing.Size(190, 20);
             this.txtLinha.TabIndex = 11;
             this.ttLinha.SetToolTip(this.txtLinha, "Digite aqui o índice da linha.");
+            this.txtLinha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtColuna_KeyPress);
             // 
             // txtValor
             // 
             this.txtValor.Enabled = false;
             this.txtValor.Location = new System.Drawing.Point(12, 93);
+            this.txtValor.MaxLength = 10;
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(190, 20);
             this.txtValor.TabIndex = 12;
             this.ttValor.SetToolTip(this.txtValor, "Digite aqui o valor.");
+            this.txtValor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValor_KeyPress);
             // 
             // txtColuna
             // 
             this.txtColuna.Enabled = false;
             this.txtColuna.Location = new System.Drawing.Point(12, 64);
+            this.txtColuna.MaxLength = 5;
             this.txtColuna.Name = "txtColuna";
             this.txtColuna.Size = new System.Drawing.Size(190, 20);
             this.txtColuna.TabIndex = 13;
             this.ttColuna.SetToolTip(this.txtColuna, "Digite aqui o índice da linha.");
+            this.txtColuna.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtColuna_KeyPress);
             // 
             // DgvResult
             // 
