@@ -97,6 +97,8 @@ namespace _18181_18185_Projeto1ED
                             celulaAnterior = CelulaAtual;
                             CelulaAtual = CelulaAtual.CelulaDireita;
                         }
+                        else
+                            break;
                     }
                     novaCell.CelulaDireita = CelulaAtual;
                     celulaAnterior.CelulaDireita = novaCell;
@@ -113,6 +115,8 @@ namespace _18181_18185_Projeto1ED
                             celulaAnterior = CelulaAtual;
                             CelulaAtual = CelulaAtual.CelulaBaixo;
                         }
+                        else
+                            break;
                     }
                     novaCell.CelulaBaixo = CelulaAtual;
                     celulaAnterior.CelulaBaixo = novaCell;
@@ -184,11 +188,9 @@ namespace _18181_18185_Projeto1ED
                 return null;
             MatrizEsparsa novaMat = new MatrizEsparsa(mat.Colunas, mat.Linhas);
 
-            novaMat.celulaAtual = primeiraCelula;
-
-            for(int l = 1; l < novaMat.linhas; l++)
+            for(int l = 1; l <= novaMat.linhas; l++)
             {
-                for( int c= 1;c < novaMat.Colunas;c++ )
+                for( int c= 1;c <= novaMat.Colunas;c++ )
                 {
                     if (this.Buscar(l, c).Valor + mat.Buscar(l, c).Valor != 0)
                     novaMat.Inserir(l, c, this.Buscar(l, c).Valor + mat.Buscar(l, c).Valor);
@@ -200,11 +202,11 @@ namespace _18181_18185_Projeto1ED
 
         public MatrizEsparsa MultMatriz(MatrizEsparsa mat)
         {
-            MatrizEsparsa novaMat = new MatrizEsparsa(this.Colunas, mat.Linhas);
+            MatrizEsparsa novaMat = new MatrizEsparsa(mat.Colunas, this.Linhas);
             int valComum = this.Linhas;
-            for(int l = 1; l< novaMat.Linhas; l++)
+            for(int l = 1; l<= novaMat.Linhas; l++)
             {
-                for(int c = 1; c< novaMat.Colunas; c++)
+                for(int c = 1; c<= novaMat.Colunas; c++)
                 {
                     double aux = 0;
                     for(int n = 1; n < valComum; n++)

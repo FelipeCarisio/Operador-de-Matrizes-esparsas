@@ -233,8 +233,10 @@
             // DgvResult
             // 
             this.DgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvResult.ColumnHeadersVisible = false;
             this.DgvResult.Location = new System.Drawing.Point(593, 61);
             this.DgvResult.Name = "DgvResult";
+            this.DgvResult.RowHeadersVisible = false;
             this.DgvResult.Size = new System.Drawing.Size(338, 354);
             this.DgvResult.TabIndex = 14;
             this.DgvResult.Visible = false;
@@ -242,8 +244,10 @@
             // dgvDois
             // 
             this.dgvDois.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDois.ColumnHeadersVisible = false;
             this.dgvDois.Location = new System.Drawing.Point(276, 198);
             this.dgvDois.Name = "dgvDois";
+            this.dgvDois.RowHeadersVisible = false;
             this.dgvDois.Size = new System.Drawing.Size(240, 217);
             this.dgvDois.TabIndex = 15;
             this.dgvDois.Visible = false;
@@ -251,8 +255,10 @@
             // dgvUm
             // 
             this.dgvUm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUm.ColumnHeadersVisible = false;
             this.dgvUm.Location = new System.Drawing.Point(12, 198);
             this.dgvUm.Name = "dgvUm";
+            this.dgvUm.RowHeadersVisible = false;
             this.dgvUm.Size = new System.Drawing.Size(240, 217);
             this.dgvUm.TabIndex = 16;
             this.dgvUm.Visible = false;

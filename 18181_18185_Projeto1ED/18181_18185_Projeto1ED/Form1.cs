@@ -148,22 +148,33 @@ namespace _18181_18185_Projeto1ED
 
         private void btnSomaMatriz_Click(object sender, EventArgs e)
         {
-            label1.Visible = true;
-            DgvResult.Visible = true;
-            MatrizEsparsa result = new MatrizEsparsa(1, 1);
-            result = matriz1.SomarMatriz(matriz2);
-            result.Exibir(DgvResult);
-            estadoAtual = (int)estado.exibindo;
-            atualizaBtns();
+            if (matriz1.Colunas == matriz2.Colunas && matriz1.Linhas == matriz2.Linhas)
+            {
+                label1.Visible = true;
+                DgvResult.Visible = true;
+                MatrizEsparsa result = new MatrizEsparsa(1, 1);
+                result = matriz1.SomarMatriz(matriz2);
+                result.Exibir(DgvResult);
+                estadoAtual = (int)estado.exibindo;
+                atualizaBtns();
+            }
+            else
+                MessageBox.Show("As matrizes devem ter os mesmos números de linhas e colunas para efetuar a operação", "Erro de formatação:", MessageBoxButtons.OK);
         }
 
         private void btnMultiplicar_Click(object sender, EventArgs e)
         {
-            label1.Visible = true;
-            DgvResult.Visible = true;
-            matriz1.MultMatriz(matriz2).Exibir(DgvResult);
-            estadoAtual = (int)estado.exibindo;
-            atualizaBtns();
+            if (matriz1.Colunas == matriz2.Linhas)
+            {
+                label1.Visible = true;
+                DgvResult.Visible = true;
+                matriz1.MultMatriz(matriz2).Exibir(DgvResult);
+                estadoAtual = (int)estado.exibindo;
+                atualizaBtns();
+            }
+            else
+                MessageBox.Show("O número de linhas da primeira matriz deve ser igual" +
+                    " \n ao número de colunas da segunda matriz para efetuar a operação", "Erro de formatação:", MessageBoxButtons.OK);
         }
 
         private void btnAddAll_Click(object sender, EventArgs e)
@@ -176,6 +187,11 @@ namespace _18181_18185_Projeto1ED
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            if(estadoAtual == (int)estado.exibindo)
+            {
+                label1.Visible = false;
+                DgvResult.Visible = false;
+            }
             estadoAtual = (int)estado.navegando;
             txtValor.Enabled = false;
             txtColuna.Enabled = false;
