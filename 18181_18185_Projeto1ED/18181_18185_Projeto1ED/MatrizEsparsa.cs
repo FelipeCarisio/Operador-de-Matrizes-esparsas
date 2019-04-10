@@ -10,10 +10,9 @@ namespace _18181_18185_Projeto1ED
 {
     class MatrizEsparsa
     {
-        int linhas = 0, colunas = 0,
-            qtdElementos = 0;
+        int linhas = 0, colunas = 0;
 
-        Celula celulaAtual = null, ultimaCelula = null, primeiraCelula = null, celulaAnterior = null, celulaCabecalhoCol = null, celulaCabecalhoLin = null;
+        Celula celulaAtual = null, primeiraCelula = null, celulaAnterior = null;
 
         public MatrizEsparsa(int col, int lin)
         {
@@ -23,11 +22,11 @@ namespace _18181_18185_Projeto1ED
             this.primeiraCelula = new Celula(null, null, 0, 0, 0);
             this.celulaAtual = this.primeiraCelula;
 
-            for(int i = 0; i < linhas; i++)
+            for(int i = 0; i <= linhas; i++)
             {
                 if (i == 0)
                 {
-                    for (int a = 0; a < colunas; a++)
+                    for (int a = 0; a <= colunas; a++)
                     {
                         Celula cabecalho = new Celula(null, null, a, i, 0);
                         this.celulaAtual.CelulaDireita = cabecalho;
@@ -48,32 +47,33 @@ namespace _18181_18185_Projeto1ED
         private int tamanhoDimen = 5, tamanhoValor = 10;
         public int Linhas { get => linhas; set => linhas = value; }
         public int Colunas { get => colunas; set => colunas = value; }
-        public int QtdElementos { get => qtdElementos; set => qtdElementos = value; }
         public Celula CelulaAtual { get => celulaAtual; set => celulaAtual = value; }
-        public Celula UltimaCelula { get => ultimaCelula; set => ultimaCelula = value; }
         public Celula PrimeiraCelula { get => primeiraCelula; set => primeiraCelula = value; }
         public Celula CelulaAnterior { get => celulaAnterior; set => celulaAnterior = value; }
 
         public Celula Buscar(int lin, int col)
         {
-            celulaAtual = PrimeiraCelula;
-            for(int i = celulaAtual.Linha; i <= lin; i = celulaAtual.Linha)
-            {
-                celulaAtual = celulaAtual.CelulaBaixo;
-            }
-
-            for(int i = celulaAtual.Coluna; i <= col; i = celulaAtual.Coluna)
-            {
-                if(celulaAtual.CelulaDireita == null )
+          
+                celulaAtual = PrimeiraCelula;
+                for (int i = celulaAtual.Linha; i < lin; i = celulaAtual.Linha)
                 {
-                    return new Celula(null, null, col, lin, 0);
+                    celulaAtual = celulaAtual.CelulaBaixo;
                 }
-                if (i == col)
-                    return celulaAtual;
-                celulaAtual = celulaAtual.CelulaDireita;
-            }
 
-            return new Celula(null, null, col, lin, 0);
+                for (int i = celulaAtual.Coluna; i <= col; i = celulaAtual.Coluna)
+                {
+                       
+                    if (celulaAtual.CelulaDireita == null && i != col)
+                    {
+                        return new Celula(null, null, col, lin, 0);
+                    }
+                    if (i == col)
+                        return celulaAtual;
+                    celulaAtual = celulaAtual.CelulaDireita;
+                }
+
+                return new Celula(null, null, col, lin, 0);
+            
         }
 
         public void Inserir(int lin, int col, double val)
@@ -129,8 +129,8 @@ namespace _18181_18185_Projeto1ED
             {
                 dados = leitor.ReadLine();
                 novaMat.Inserir(int.Parse(dados.Substring(0, tamanhoDimen))
-                    , int.Parse(dados.Substring(tamanhoDimen, tamanhoDimen))
-                    , int.Parse(dados.Substring(2 * tamanhoDimen - 1, tamanhoValor)));
+                    , int.Parse(dados.Substring(tamanhoDimen , tamanhoDimen))
+                    , double.Parse(dados.Substring(2 * tamanhoDimen, tamanhoValor)));
             }
             leitor.Close();
             return novaMat;
@@ -153,6 +153,8 @@ namespace _18181_18185_Projeto1ED
                         celulaAnterior = CelulaAtual;
                         CelulaAtual = CelulaAtual.CelulaDireita;
                     }
+                    else
+                        break;
                 }
                 celulaAnterior.CelulaDireita = exCell.CelulaDireita;
 
@@ -168,6 +170,8 @@ namespace _18181_18185_Projeto1ED
                         celulaAnterior = CelulaAtual;
                         CelulaAtual = CelulaAtual.CelulaBaixo;
                     }
+                    else
+                        break;
                 }
                 celulaAnterior.CelulaBaixo = exCell.CelulaBaixo;
             }
@@ -194,17 +198,37 @@ namespace _18181_18185_Projeto1ED
             return novaMat;
         }
 
-        public void SomarK(int col, int k)
+        public MatrizEsparsa MultMatriz(MatrizEsparsa mat)
         {
-            if (col > 0 && col < colunas && k != 0)
+            MatrizEsparsa novaMat = new MatrizEsparsa(this.Colunas, mat.Linhas);
+            int valComum = this.Linhas;
+            for(int l = 1; l< novaMat.Linhas; l++)
             {
-                for(int i = 1; i< Linhas; i++)
+                for(int c = 1; c< novaMat.Colunas; c++)
+                {
+                    double aux = 0;
+                    for(int n = 1; n < valComum; n++)
+                    {
+                        aux += this.Buscar(l, n).Valor * mat.Buscar(n, c).Valor;
+                    }
+                    if (aux != 0)
+                        novaMat.Inserir(l, c, aux);
+                }
+            }
+            return novaMat;
+        }
+
+        public void SomarK(int col, double k)
+        {
+            if (col > 0 && col <= colunas && k != 0)
+            {
+                for(int i = 1; i<= Linhas; i++)
                 {
                     Celula aux = Buscar(i, col);
                     if (aux.Valor != 0)
                     {
                         if (aux.Valor + k != 0)
-                            aux.Valor = +k;
+                            aux.Valor = aux.Valor + k;
                         else
                             Deletar(aux.Coluna,aux.Linha);
                     }
@@ -219,9 +243,9 @@ namespace _18181_18185_Projeto1ED
             onde.RowCount = linhas;
             onde.ColumnCount = colunas;
 
-            for(int c = 1; c< this.colunas; c++)
+            for(int c = 1; c<= this.colunas; c++)
             {
-                for(int l = 1;l<this.Linhas; l++)
+                for(int l = 1;l<=this.Linhas; l++)
                 {
                     onde[c - 1, l - 1].Value = Buscar(l, c).Valor;
                 }

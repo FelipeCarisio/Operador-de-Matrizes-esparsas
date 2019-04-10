@@ -61,6 +61,7 @@
             this.ttAcionarConst = new System.Windows.Forms.ToolTip(this.components);
             this.ttDelete = new System.Windows.Forms.ToolTip(this.components);
             this.ttMultiplicar = new System.Windows.Forms.ToolTip(this.components);
+            this.ofdLeitura = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.DgvResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDois)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUm)).BeginInit();
@@ -76,6 +77,7 @@
             this.btnAdd.Text = "inserir";
             this.ttAdd.SetToolTip(this.btnAdd, "Adicione um valor em um local específico da matriz.");
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnRemover
             // 
@@ -87,6 +89,7 @@
             this.btnRemover.Text = "remover";
             this.ttRemover.SetToolTip(this.btnRemover, "Remove um item de uma posição específica da matriz.");
             this.btnRemover.UseVisualStyleBackColor = true;
+            this.btnRemover.Click += new System.EventHandler(this.btnRemover_Click);
             // 
             // btnCriar
             // 
@@ -97,6 +100,7 @@
             this.btnCriar.Text = "novo";
             this.ttCriar.SetToolTip(this.btnCriar, "Crie uma nova matriz.");
             this.btnCriar.UseVisualStyleBackColor = true;
+            this.btnCriar.Click += new System.EventHandler(this.btnCriar_Click);
             // 
             // btnRead
             // 
@@ -107,6 +111,7 @@
             this.btnRead.Text = "ler";
             this.ttLer.SetToolTip(this.btnRead, "Leia uma matriz de um arquivo.");
             this.btnRead.UseVisualStyleBackColor = true;
+            this.btnRead.Click += new System.EventHandler(this.btnRead_Click);
             // 
             // btnReturn
             // 
@@ -118,6 +123,7 @@
             this.btnReturn.Text = "buscar";
             this.ttGet.SetToolTip(this.btnReturn, "retorna um valor de uma posição especificada.");
             this.btnReturn.UseVisualStyleBackColor = true;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
             // btnSomaMatriz
             // 
@@ -129,6 +135,7 @@
             this.btnSomaMatriz.Text = "somar";
             this.ttSoma.SetToolTip(this.btnSomaMatriz, "Soma duas matrizes e exibe o resultado.");
             this.btnSomaMatriz.UseVisualStyleBackColor = true;
+            this.btnSomaMatriz.Click += new System.EventHandler(this.btnSomaMatriz_Click);
             // 
             // btnConfirmar
             // 
@@ -140,6 +147,7 @@
             this.btnConfirmar.TabIndex = 8;
             this.btnConfirmar.Text = "Confirmar";
             this.btnConfirmar.UseVisualStyleBackColor = true;
+            this.btnConfirmar.Click += new System.EventHandler(this.btnConfirmar_Click);
             // 
             // btnDeleta
             // 
@@ -151,6 +159,7 @@
             this.btnDeleta.Text = "deletar";
             this.ttDelete.SetToolTip(this.btnDeleta, "Deleta a matriz atual.");
             this.btnDeleta.UseVisualStyleBackColor = true;
+            this.btnDeleta.Click += new System.EventHandler(this.btnDeleta_Click);
             // 
             // btnMultiplicar
             // 
@@ -162,6 +171,7 @@
             this.btnMultiplicar.Text = "multiplicar";
             this.ttMultiplicar.SetToolTip(this.btnMultiplicar, "Multiplica as duas matrizes.");
             this.btnMultiplicar.UseVisualStyleBackColor = true;
+            this.btnMultiplicar.Click += new System.EventHandler(this.btnMultiplicar_Click);
             // 
             // btnAddAll
             // 
@@ -173,6 +183,7 @@
             this.btnAddAll.Text = "somar K";
             this.ttAcionarConst.SetToolTip(this.btnAddAll, "Adiciona um valor em todos valores de uma coluna da matriz.");
             this.btnAddAll.UseVisualStyleBackColor = true;
+            this.btnAddAll.Click += new System.EventHandler(this.btnAddAll_Click);
             // 
             // btnCancelar
             // 
@@ -184,33 +195,40 @@
             this.btnCancelar.TabIndex = 10;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // txtLinha
             // 
             this.txtLinha.Enabled = false;
             this.txtLinha.Location = new System.Drawing.Point(12, 34);
+            this.txtLinha.MaxLength = 5;
             this.txtLinha.Name = "txtLinha";
             this.txtLinha.Size = new System.Drawing.Size(190, 20);
             this.txtLinha.TabIndex = 11;
             this.ttLinha.SetToolTip(this.txtLinha, "Digite aqui o índice da linha.");
+            this.txtLinha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtColuna_KeyPress);
             // 
             // txtValor
             // 
             this.txtValor.Enabled = false;
             this.txtValor.Location = new System.Drawing.Point(12, 93);
+            this.txtValor.MaxLength = 10;
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(190, 20);
             this.txtValor.TabIndex = 12;
             this.ttValor.SetToolTip(this.txtValor, "Digite aqui o valor.");
+            this.txtValor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValor_KeyPress);
             // 
             // txtColuna
             // 
             this.txtColuna.Enabled = false;
             this.txtColuna.Location = new System.Drawing.Point(12, 64);
+            this.txtColuna.MaxLength = 5;
             this.txtColuna.Name = "txtColuna";
             this.txtColuna.Size = new System.Drawing.Size(190, 20);
             this.txtColuna.TabIndex = 13;
             this.ttColuna.SetToolTip(this.txtColuna, "Digite aqui o índice da linha.");
+            this.txtColuna.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtColuna_KeyPress);
             // 
             // DgvResult
             // 
@@ -276,6 +294,11 @@
             // 
             this.ttColuna.Tag = "";
             this.ttColuna.ToolTipTitle = "coluna da matriz";
+            // 
+            // ofdLeitura
+            // 
+            this.ofdLeitura.DefaultExt = "txt";
+            this.ofdLeitura.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -347,6 +370,7 @@
         private System.Windows.Forms.ToolTip ttDelete;
         private System.Windows.Forms.ToolTip ttAcionarConst;
         private System.Windows.Forms.ToolTip ttMultiplicar;
+        private System.Windows.Forms.OpenFileDialog ofdLeitura;
     }
 }
 
